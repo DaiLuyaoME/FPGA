@@ -1,6 +1,8 @@
 net"clk" loc="p123";
 net"rst" loc="p87";
 net"clear" loc="p56";
+net"start" loc="p57";
+net"stop_contiue" loc="p58";
 net"seg[0]" loc="p1";
 net"seg[1]" loc="p2";
 net"seg[2]" loc="p5";

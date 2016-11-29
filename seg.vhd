@@ -31,8 +31,8 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity nixieTube is
 Port ( clk : in  STD_LOGIC;
---	start: in STD_LOGIC;
---	stop_contiue: in STD_LOGIC;
+	start: in STD_LOGIC;
+	stop_contiue: in STD_LOGIC;
 	clear: in STD_LOGIC;
 	rst : in  STD_LOGIC;
 	sel : out  STD_LOGIC_VECTOR (7 downto 0);
@@ -97,7 +97,7 @@ end choose;
 begin
 
 
-
+--clear button
 process(clk,clear)
 variable count:integer range 0 to 200000:=0;
 begin
@@ -114,6 +114,41 @@ else count:=0; clearButton<='0';
 end if;
 end process;
 
+--start button
+process(clk,start)
+variable count:integer range 0 to 200000:=0;
+begin
+if(start='0') then
+	if rising_edge(clk) then
+		if count<200000 then count:=count+1;
+		else count:=count;
+		end if;
+		if count=200000 then startButton<='1';
+		end if;
+	end if;
+else count:=0; 
+end if;
+end process;
+
+--continueAndStop button
+process(clk,stop_contiue)
+variable count:integer range 0 to 200000:=0;
+begin
+if(stop_contiue='0') then
+	if rising_edge(clk) then
+		if count<200000 then count:=count+1;
+		else count:=count;
+		end if;
+		if count=199999 then 
+			conAndStopButton<= not conAndStopButton;
+		end if;
+	end if;
+else 
+
+	count:=0;  
+end if;
+end process;
+
 
 
 
@@ -125,7 +160,7 @@ begin
 if (rst='0' or clearButton='1') then
 count:=0;
 oneMil<='0';
-elsif (rising_edge(clk)) then
+elsif (rising_edge(clk) and startButton='1' and conAndStopButton='0') then
 count:=count+1;
 oneMil<='0';
 if(count=200000) then
