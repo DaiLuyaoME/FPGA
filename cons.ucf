@@ -1,0 +1,19 @@
+net"clk" loc="p123";
+net"rst" loc="p87";
+net"seg[0]" loc="p1";
+net"seg[1]" loc="p2";
+net"seg[2]" loc="p5";
+net"seg[3]" loc="p6";
+net"seg[4]" loc="p7";
+net"seg[5]" loc="p8";
+net"seg[6]" loc="p9";
+net"seg[7]" loc="p10";
+
+net"sel[0]" loc="p124";
+net"sel[1]" loc="p126";
+net"sel[2]" loc="p127";
+net"sel[3]" loc="p131";
+net"sel[4]" loc="p132";
+net"sel[5]" loc="p133";
+net"sel[6]" loc="p134";
+net"sel[7]" loc="p137";
