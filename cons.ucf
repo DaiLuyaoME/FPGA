@@ -1,5 +1,6 @@
 net"clk" loc="p123";
 net"rst" loc="p87";
+net"clear" loc="p56";
 net"seg[0]" loc="p1";
 net"seg[1]" loc="p2";
 net"seg[2]" loc="p5";
@@ -17,3 +18,4 @@ net"sel[4]" loc="p132";
 net"sel[5]" loc="p133";
 net"sel[6]" loc="p134";
 net"sel[7]" loc="p137";
+

@@ -33,7 +33,7 @@ entity nixieTube is
 Port ( clk : in  STD_LOGIC;
 --	start: in STD_LOGIC;
 --	stop_contiue: in STD_LOGIC;
---	clear: in STD_LOGIC;
+	clear: in STD_LOGIC;
 	rst : in  STD_LOGIC;
 	sel : out  STD_LOGIC_VECTOR (7 downto 0);
 	seg : out  STD_LOGIC_VECTOR (7 downto 0));
@@ -56,6 +56,11 @@ signal minHigh : integer range 0 to 9 :=0;
 signal hourLow : integer range 0 to 3 :=0;
 signal hourHigh : integer range 0 to 2 :=0;
 signal state: integer range 0 to 7:=0;
+
+signal startButton: STD_LOGIC :='0';
+signal clearButton: STD_LOGIC :='0';
+signal conAndStopButton: STD_LOGIC:='0';
+
 
 function interpret(signal dat:integer) return STD_LOGIC_VECTOR is
 begin
@@ -89,16 +94,35 @@ when others => return "00000000";
 end case;
 end choose;
 
-
-
 begin
+
+
+
+process(clk,clear)
+variable count:integer range 0 to 200000:=0;
+begin
+if(clear='0') then
+	if rising_edge(clk) then
+		if count<200000 then count:=count+1;
+		else count:=count;
+		end if;
+		if count=200000 then clearButton<='1';
+		else clearButton<='0';
+		end if;
+	end if;
+else count:=0; clearButton<='0';
+end if;
+end process;
+
+
+
 
 
 --provide 0.01s clock
-P0:process(clk,rst)
+P0:process(clk,rst,clear)
 variable count: integer range 0 to 200000 :=0;
 begin
-if (rst='0') then
+if (rst='0' or clearButton='1') then
 count:=0;
 oneMil<='0';
 elsif (rising_edge(clk)) then
@@ -113,9 +137,9 @@ end process P0;
 
 
 --provide 1s clock
-P1:process(rst,oneMil)
+P1:process(rst,oneMil,clear)
 begin
-if (rst='0') then
+if (rst='0'or clearButton='1') then
 milLow<=0;
 milHigh<=0;
 oneSec<='0';
@@ -130,9 +154,9 @@ end if;
 end process P1;
 
 -- provide a minute clock
-P2:process(oneSec,rst)
+P2:process(oneSec,rst,clear)
 begin
-if (rst='0') then 
+if (rst='0'or clearButton='1') then 
 secLow <= 0;
 secHigh <=0;
 oneMin <='0';
@@ -147,9 +171,9 @@ end if;
 end process P2;
 
 -- provide an hour clock
-P3:process(oneMin,rst)
+P3:process(oneMin,rst,clear)
 begin
-if (rst='0') then 
+if (rst='0'or clearButton='1') then 
 minLow <=0;
 minHigh <=0;
 oneHour <='0';
@@ -164,9 +188,9 @@ end if;
 end process P3;
 
 --provide 24 hour clock
-P4:process(oneHour,rst)
+P4:process(oneHour,rst,clear)
 begin
-if (rst='0') then
+if (rst='0'or clearButton='1') then
 hourLow<=0;
 hourHigh<=0;
 elsif (rising_edge(oneHour)) then
