@@ -18,9 +18,25 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module bpsModule( 
+module bpsModule(clk,rstn,count_sig,bps_clk)
     );
 
+input clk;
+input rstn;
+input count_sig;
+output bps_clk;
 
-
+reg [11:0] count;
+always @(posedge clk or negedge rstn) 
+begin
+	if (!rstn) 
+		count <= 12'd0;
+	else if (count == 12'd2082)
+		count <= 12'd0;
+	else if (count_sig)  
+		count <= count + 1'b1;
+	else
+		count <= 12'd0;
+end
+assign bps_clk = (count > 12'd1041) ? 1'b1:1'b0;
 endmodule
