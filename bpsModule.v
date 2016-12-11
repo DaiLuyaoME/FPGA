@@ -18,31 +18,9 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module bpsModule( clk, rstn, rx_pin_in, h2l_sig
+module bpsModule( 
     );
 
-input clk;
-input rstn;
-input rx_pin_in;
-output h2l_sig;
 
-reg h2l_1;
-reg h2l_2;
-
-always @(posedge clk or negedge rstn)
-begin
-	if (!rstn)
-	begin
-		h2l_1 <= 1'b1;
-		h2l_2 <= 1'b1;
-	end;
-	else
-	begin
-		h2l_1 <= rx_pin_in;
-		h2l_2 <= h2l_1;
-	end
-		
-assign h2l_sig = h2l_2 & !h2l_1;
-end
 
 endmodule
