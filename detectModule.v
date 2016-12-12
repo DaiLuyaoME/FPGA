@@ -35,7 +35,7 @@ begin
 	begin
 		h2l_1 <= 1'b1;
 		h2l_2 <= 1'b1;
-	end;
+	end
 	else
 	begin
 		h2l_1 <= rx_pin_in;

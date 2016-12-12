@@ -9,9 +9,10 @@ output tx_pin_out;
 
 reg [3:0] state;
 reg rtx;
-reg isdone;
+reg isDone;
 
 always @ (posedge clk or negedge rstn)
+begin
 	if(! rstn)
 	begin
 		state  <= 4'd0;
@@ -21,7 +22,7 @@ always @ (posedge clk or negedge rstn)
 	else if(tx_en_sig)
 	begin
 		case (state)
-		4'd0 ：
+		4'd0 :
 		if(bps_clk) begin state <= state + 1'b1; rtx <= 1'b0; end
 		4'd1,4'd2,4'd3,4'd4,4'd5,4'd6,4'd7,4'd8:
 		if(bps_clk) begin state <= state + 1'b1; rtx <= tx_data[state-1]; end
@@ -33,6 +34,7 @@ always @ (posedge clk or negedge rstn)
 		begin state <= 1'b0; isDone <= 1'b0; end
 		endcase
 	end
+end
 
 	assign tx_pin_out = rtx;
 	assign tx_done_sig = isDone;

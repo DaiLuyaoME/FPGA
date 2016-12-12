@@ -29,34 +29,36 @@ input rx_pin_in;
 input bps_clk;
 
 output count_sig;
-output [7:0] rx_data；
+output [7:0] rx_data;
 output rx_done_sig;
 
 reg [3:0] state;
 reg [7:0] rData;
+reg [7:0] data;
 reg isCount;
 reg isDone;
 
-always @ ( posedge clk, or negedge rstn )
+always @ ( posedge clk or negedge rstn )
 begin
 	if( !rstn )
 	begin
 		state   <= 4'd0;
 		rData   <= 8'd0;
+		data    <= 8'd0;
 		isCount <= 1'b0;
 		isDone  <= 1'b0;
 	end
 	else if (rx_en_sig)
 	begin
 		case (state)
-		4'd0 ：
+		4'd0 :
 		if(h2l_sig) begin state <= state + 1'b1; isCount <= 1'b1; end
 		4'd1 :
 		if(bps_clk) begin state <= state + 1'b1; end
 		4'd2,4'd3,4'd4,4'd5,4'd6,4'd7,4'd8,4'd9 :
 		if(bps_clk) begin state <= state + 1'b1; rData[state-2] <= rx_pin_in;end
 		4'd10 :
-		if(bps_clk) begin state <= state + 1'b1; end
+		if(bps_clk) begin state <= state + 1'b1; data <= rData; end
 		4'd11 :
 		if(bps_clk) begin state <= state + 1'b1; end
 		4'd12 :
@@ -65,10 +67,8 @@ begin
 		begin state <= 1'b0; isDone <= 1'b0; end
 		endcase
 	end
+end
 assign count_sig = isCount;
-assign rx_data = rData;
+assign rx_data = data;
 assign rx_done_sig = isDone;
-
-
-
 endmodule

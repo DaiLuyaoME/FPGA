@@ -18,8 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module bpsModule(clk,rstn,count_sig,bps_clk)
-    );
+module bpsModule(clk,rstn,count_sig,bps_clk);
 
 input clk;
 input rstn;
