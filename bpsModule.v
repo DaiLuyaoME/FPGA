@@ -38,5 +38,5 @@ begin
 	else
 		count <= 12'd0;
 end
-assign bps_clk = (count > 12'd1041) ? 1'b1:1'b0;
+assign bps_clk = (count == 12'd1041) ? 1'b1:1'b0;
 endmodule

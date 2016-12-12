@@ -54,7 +54,7 @@ begin
 		4'd1 :
 		if(bps_clk) begin state <= state + 1'b1; end
 		4'd2,4'd3,4'd4,4'd5,4'd6,4'd7,4'd8,4'd9 :
-		if(bps_clk) begin state <= state + 1'b1; rData[i-2] <= rx_pin_in;end
+		if(bps_clk) begin state <= state + 1'b1; rData[state-2] <= rx_pin_in;end
 		4'd10 :
 		if(bps_clk) begin state <= state + 1'b1; end
 		4'd11 :
