@@ -18,14 +18,14 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module ad(clk,rst_n,ad_data,ad_cs,ad_clk,seg,sel);
+module main(clk,rstn,ad_data,ad_cs,ad_clk,seg,sel);
 input clk;
-input rst_n;
+input rstn;
 input ad_data;
 output reg[7:0] seg;
 output reg[3:0] sel;
-output reg ad_clk;
-output reg ad_cs;
+output  ad_clk;
+output  ad_cs;
 
 //reg ad_data;
 reg[25:0] count;
@@ -35,18 +35,18 @@ reg[3:0] hundred;
 reg[3:0] thousand;
 reg[3:0] display;
 
-always @(posedge clk or negedge rst_n) 
+always @(posedge clk or negedge rstn) 
 begin
-	if (!rst_n) count<=26'b0;
+	if (!rstn) count<=26'b0;
 	else if(count==26'd20000) count<=26'b0;
 	else count<= count+1;
 end
 
 wire timer_1000hz = (count == 26'd20000);
 
-always @(posedge clk or negedge rst_n) 
+always @(posedge clk or negedge rstn) 
 begin
-	if (!rst_n) sel<=4'b1000;
+	if (!rstn) sel<=4'b1000;
 	else if (timer_1000hz)
 	begin
 		sel <= {sel[2:0],sel[3]};
@@ -83,7 +83,7 @@ parameter num0 = 8'b00111111,
 		  unum7 = 8'b10000111,
 		  unum8 = 8'b11111111,
 		  unum9 = 8'b11101111;
-
+ 
 always @(display)
 begin
 if(sel==4'd1)
@@ -120,59 +120,26 @@ begin
 end
 end
 
+wire is_done;
+wire[7:0] buffer;
+ad U1(.clk(clk),.rstn(rstn),.ad_data(ad_data),.adcs(ad_cs),.adclk(ad_clk),.data(buffer),.isdone(is_done));
 
-// tlc549
-// 1Mhz
-reg[7:0] cnt=0;
-always @(posedge clk ) 
+
+always @ (buffer)
 begin
-	if(cnt==40) cnt<=0;
-	else
-	begin
-	 	if(cnt < 20) ad_clk <= 0;
-	 	else ad_clk <= 1;
-	 	cnt <= cnt+1;
-	end;
-
+	//if(!rstn) begin unit <= 0;tenth <= 0;hundred <= 0;thousand <= 0; end
+	//else
+	//begin
+	//	if(is_done)
+		//begin
+			unit     <= 5*buffer/510;
+			tenth    <= (50*buffer/510)%10;
+			hundred  <= (500*buffer/510)%10;
+			thousand <= (5000*buffer/510)%10;
+	//	end
+	//	else;
+	//end
 end
 
-reg [4:0] conv_bit_cnt;
-
-always @(posedge ad_clk or negedge rst_n) 
-begin
-	if (!rst_n) conv_bit_cnt<=0;
-	else 
-	begin 
-		if(conv_bit_cnt==18) conv_bit_cnt <=0;
-		else conv_bit_cnt <= conv_bit_cnt+1;
-	end;
-end
-
-reg [7:0] buffer;
-always @(posedge ad_clk ) 
-begin
-	case(conv_bit_cnt)
-		4'h0 : ad_cs <= 0;
-		4'h1 : buffer[7] <= ad_data;
-		4'h2 : buffer[6] <= ad_data;
-		4'h3 : buffer[5] <= ad_data;
-		4'h4 : buffer[4] <= ad_data;
-		4'h5 : buffer[3] <= ad_data;
-		4'h6 : buffer[2] <= ad_data;
-		4'h7 : buffer[1] <= ad_data;
-		4'h8 : begin
-				 buffer[0] <= ad_data;
-				 ad_cs <= 1;
-			   end
-		4'h9 : begin
-				unit <= 5*buffer/510;
-				tenth <= (50*buffer/510)%10;
-				hundred <= (500*buffer/510)%10;
-				thousand <= (5000*buffer/510)%10;
-				end
-		default:;
-	endcase
-		
-end
 
 endmodule

@@ -1,5 +1,5 @@
 net"clk" loc="p123";
-net"rst_n" loc="p87";
+net"rstn" loc="p87";
 net"ad_clk" loc="p78";
 net"ad_data" loc="p79";
 net"ad_cs" loc="p80";
