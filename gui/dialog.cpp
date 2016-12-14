@@ -43,3 +43,59 @@ void Dialog::changeDisplay()
     ui->lcdNumber->display(data);
 
 }
+
+void Dialog::genWriteData()
+{
+    unsigned int temp=0;
+    if(ui->led_1->isChecked()) temp += 128;
+    if(ui->led_2->isChecked()) temp += 64;
+    if(ui->led_3->isChecked()) temp += 32;
+    if(ui->led_4->isChecked()) temp += 16;
+    if(ui->led_5->isChecked()) temp += 8;
+    if(ui->led_6->isChecked()) temp += 4;
+    if(ui->led_7->isChecked()) temp += 2;
+    if(ui->led_7->isChecked()) temp += 1;
+    dataToWrite=QByteArray::fromHex(QByteArray::number(temp,16));
+    myPort->write(dataToWrite);
+
+}
+
+void Dialog::on_led_1_clicked()
+{
+    genWriteData();
+}
+
+void Dialog::on_led_2_clicked()
+{
+    genWriteData();
+}
+
+void Dialog::on_led_3_clicked()
+{
+    genWriteData();
+}
+
+void Dialog::on_led_4_clicked()
+{
+    genWriteData();
+}
+
+void Dialog::on_led_5_clicked()
+{
+    genWriteData();
+}
+
+void Dialog::on_led_6_clicked()
+{
+    genWriteData();
+}
+
+void Dialog::on_led_7_clicked()
+{
+    genWriteData();
+}
+
+void Dialog::on_led_8_clicked()
+{
+    genWriteData();
+}

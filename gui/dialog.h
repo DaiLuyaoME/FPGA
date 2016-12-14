@@ -21,12 +21,30 @@ private:
     void initPort();
 private slots:
     void changeDisplay();
+    void genWriteData();
 
+
+    void on_led_1_clicked();
+
+    void on_led_2_clicked();
+
+    void on_led_3_clicked();
+
+    void on_led_4_clicked();
+
+    void on_led_5_clicked();
+
+    void on_led_6_clicked();
+
+    void on_led_7_clicked();
+
+    void on_led_8_clicked();
 
 private:
     Ui::Dialog *ui;
     QSerialPort *myPort;
     QByteArray buffer;
+    QByteArray dataToWrite;
 };
 
 #endif // DIALOG_H
