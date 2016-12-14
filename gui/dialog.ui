@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>585</width>
+    <height>287</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QLCDNumber" name="lcdNumber">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>40</y>
+     <width>411</width>
+     <height>171</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>230</y>
+     <width>530</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0" rowspan="2" colspan="9">
+     <widget class="QFrame" name="frame">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QCheckBox" name="led_1">
+      <property name="text">
+       <string>led1</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="2">
+     <widget class="QCheckBox" name="led_2">
+      <property name="text">
+       <string>led2</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="3">
+     <widget class="QCheckBox" name="led_3">
+      <property name="text">
+       <string>led3</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="4">
+     <widget class="QCheckBox" name="led_4">
+      <property name="text">
+       <string>led4</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="5">
+     <widget class="QCheckBox" name="led_5">
+      <property name="text">
+       <string>led5</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="6">
+     <widget class="QCheckBox" name="led_6">
+      <property name="text">
+       <string>led6</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="7">
+     <widget class="QCheckBox" name="led_7">
+      <property name="text">
+       <string>led7</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="8">
+     <widget class="QCheckBox" name="led_8">
+      <property name="text">
+       <string>led8</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>

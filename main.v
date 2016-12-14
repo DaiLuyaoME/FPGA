@@ -1,4 +1,4 @@
-module main(clk,rstn,rx_pin_in,tx_pin_out,ad_data,ad_clk,ad_cs,seg,sel);
+module main(clk,rstn,rx_pin_in,tx_pin_out,ad_data,ad_clk,ad_cs,seg,sel,ledout);
 input clk;
 input rstn;
 input rx_pin_in;
@@ -8,6 +8,7 @@ output ad_clk;
 output ad_cs;
 output [7:0] seg;
 output [3:0] sel;
+output [7:0] ledout;
 
 reg[25:0] count;
 
@@ -24,15 +25,17 @@ end
 wire halfSec=(count==10000000)?1'b1:1'b0;
 wire[7:0] tx_data;
 wire tx_en_sig;
+wire rx_en_sig;
 wire tx_done_sig;
 reg tx_en;
+reg rx_en;
 
 
 txModule u1(.clk(clk),.rstn(rstn),.tx_data(tx_data),.tx_en_sig(tx_en_sig),.tx_done_sig(tx_done_sig),.tx_pin_out(tx_pin_out));
 
 always @ (posedge clk, negedge rstn)
 begin
-	if(!rstn) tx_en <= 1'b0;
+	if(!rstn) begin tx_en <= 1'b0;rx_en <= 1'b1;end
 	else
 	begin
 		if(halfSec) begin tx_en <= 1'b1;end
@@ -42,8 +45,14 @@ begin
 	end
 end
 assign tx_en_sig = tx_en;
+assign rx_en_sig = rx_en;
+
 wire isdone;
 ad u2(.clk(clk),.rstn(rstn),.ad_data(ad_data),.adcs(ad_cs),.adclk(ad_clk),.data(tx_data),.isdone(isdone));
 tube u3(.clk(clk),.rstn(rstn),.data(tx_data),.seg(seg),.sel(sel));
+
+wire [7:0] led_data;
+rxModule u4(.clk(clk),.rstn(rstn),.rx_pin_in(rx_pin_in),.rx_en_sig(rx_en_sig),.rx_done_sig(rx_done_sig),.rx_data(led_data));
+ledmodule u5(.data(led_data),.ledout(ledout));
 
 endmodule

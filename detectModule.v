@@ -18,8 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module detectModule(clk, rstn, rx_pin_in, h2l_sig
-    );
+module detectModule(clk, rstn, rx_pin_in, h2l_sig);
 
 input clk;
 input rstn;
@@ -42,6 +41,6 @@ begin
 		h2l_2 <= h2l_1;
 	end
 		
-assign h2l_sig = h2l_2 & !h2l_1;
 end
+assign h2l_sig = h2l_2 & !h2l_1;
 endmodule

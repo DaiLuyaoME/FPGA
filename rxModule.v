@@ -37,6 +37,7 @@ detectModule U1
 );
 
 wire bps_clk;
+wire count_sig;
 
 bpsModule U2
 (
@@ -46,7 +47,6 @@ bpsModule U2
 	.bps_clk(bps_clk)
 );
 
-wire count_sig;
 
 rxControlModule U3
 (
