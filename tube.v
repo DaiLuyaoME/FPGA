@@ -90,7 +90,7 @@ parameter num0 = 8'b00111111,
  
 always @(display)
 begin
-if(selBuff==4'd2)
+if(selBuff==4'd4)
 begin
 	case (display)
 	4'd0: segBuff <= unum0;
@@ -106,7 +106,7 @@ begin
 	default:;
 	endcase;
 end
-else if(selBuff==4'd8)
+else if(selBuff==4'd1)
 begin
 	case(display)
 	4'd0: segBuff <= num0; 
