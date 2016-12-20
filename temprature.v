@@ -1,50 +1,34 @@
 module Temperature(
-  input         clk,                    // 50MHz时钟
-//  input         rst_n,                  // 异步复位
+  input         clk,                    // 20MHz时钟
+  input         rstn,                  // 异步复位
   inout         one_wire,               // One-Wire总线
   output [15:0] temperature             // 输出温度值
 );
 
- reg rst_n;
- reg [19:0]count;
- always@(posedge clk)
- begin
-    if(count<20'h80000)
-       begin
-       rst_n<=1;
-       count<=count+1;
-       end
-    else if(count<20'h8ffff)
-       begin
-       rst_n<=0;
-       count<=count+1;
-       end
-    else
-       rst_n<=1;
- end
+
 //++++++++++++++++++++++++++++++++++++++
-// 分频器50MHz->1MHz 开始
+// 分频器20MHz->1MHz 开始
 //++++++++++++++++++++++++++++++++++++++
 reg [5:0] cnt;                         // 计数子
-always @ (posedge clk, negedge rst_n)
-  if (!rst_n)
+always @ (posedge clk, negedge rstn)
+  if (!rstn)
     cnt <= 0;
   else
-    if (cnt == 49)
+    if (cnt == 19)
       cnt <= 0;
     else
       cnt <= cnt + 1'b1;
 reg clk_1us;                            // 1MHz 时钟
-always @ (posedge clk, negedge rst_n)
-  if (!rst_n)
+always @ (posedge clk, negedge rstn)
+  if (!rstn)
     clk_1us <= 0;
   else
-    if (cnt <= 24)                      // 24 = 50/2 - 1
+    if (cnt <= 9)                      // 9 = 20/2 - 1
       clk_1us <= 0;
     else
       clk_1us <= 1;      
 //--------------------------------------
-// 分频器50MHz->1MHz 结束
+// 分频器20MHz->1MHz 结束
 //--------------------------------------
 //延时模块的使用
 //++++++++++++++++++++++++++++++++++++++
@@ -90,9 +74,9 @@ reg [15:0] temperature_buf;            // 采集到的温度值缓存器（未�
 reg [5:0] step;                        // 子状态寄存器 0~50
 reg [3:0] bit_valid;                   // 有效位  
   
-always @(posedge clk_1us, negedge rst_n)
+always @(posedge clk_1us, negedge rstn)
 begin
-  if (!rst_n)
+  if (!rstn)
   begin
     one_wire_buf <= 1'bZ;
     step         <= 0;
