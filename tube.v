@@ -1,15 +1,15 @@
 module tube(clk,rstn,data,seg,sel);
 input clk;
 input rstn;
-input [12:0] data;
+input [15:0] data;
 output[7:0] seg;
 output [3:0] sel;
 
 reg[25:0] count;
-reg[3:0] unit;
 reg[3:0] tenth;
-reg[3:0] hundred;
-reg[3:0] thousand;
+reg[3:0] unit;
+reg[3:0] decade;
+reg[3:0] sign;
 reg[3:0] display;
 
 
@@ -83,8 +83,7 @@ parameter num0 = 8'b00111111,
 		  unum6 = 8'b11111101,
 		  unum7 = 8'b10000111,
 		  unum8 = 8'b11111111,
-		  unum9 = 8'b11101111;
-
+		  unum9 = 8'b11101111,
 		  minus = 8'b01000000;
 
 
