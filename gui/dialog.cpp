@@ -6,7 +6,7 @@ Dialog::Dialog(QWidget *parent) :
     ui(new Ui::Dialog)
 {
     ui->setupUi(this);
-    ui->lcdNumber->display(10.4);
+    ui->lcdNumber->display(1.4);
     initPort();
     connect(myPort,&QSerialPort::readyRead,this,&Dialog::changeDisplay);
 
